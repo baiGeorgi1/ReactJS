@@ -16,34 +16,60 @@ var root = ReactDOM.createRoot(rootDom);
 //   reactSecond,
 // );
 // now with JSX syntax
-var headerJSX = React.createElement(
-  "header",
-  { className: "site-header" },
-  React.createElement(
-    "h1",
-    null,
-    "Hello from JSX"
-  ),
-  React.createElement(
-    "h2",
-    null,
-    "The best syntax ever!"
-  ),
-  React.createElement(
-    "h3",
-    null,
-    "New type!"
-  ),
-  React.createElement(
-    "form",
-    { action: "" },
-    React.createElement("input", { type: "login" }),
+//########### this
+// const Footer = () => {  // create Component
+//   return React.createElement(
+//     "div",
+//     { className: "site-footer" },
+//     React.createElement("p", {}, `All rights reserved!`),
+//   );
+// };
+//########## OR ########
+var Footer = function Footer() {
+  return React.createElement(
+    "div",
+    { className: "site-footer" },
     React.createElement(
-      "button",
+      "p",
       null,
-      "login"
+      "All rights reserved \xA9"
     )
-  )
+  );
+};
+
+var body = React.createElement(
+  "div",
+  null,
+  React.createElement(
+    "header",
+    { className: "site-header" },
+    React.createElement(
+      "h1",
+      null,
+      "Hello from JSX"
+    ),
+    React.createElement(
+      "h2",
+      null,
+      "The best syntax ever!"
+    ),
+    React.createElement(
+      "h3",
+      null,
+      "New type!"
+    ),
+    React.createElement(
+      "form",
+      { action: "" },
+      React.createElement("input", { type: "login" }),
+      React.createElement(
+        "button",
+        null,
+        "login"
+      )
+    )
+  ),
+  React.createElement(Footer, null)
 );
 
-root.render(headerJSX);
+root.render(body);

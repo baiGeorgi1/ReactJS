@@ -16,16 +16,34 @@ const root = ReactDOM.createRoot(rootDom);
 //   reactSecond,
 // );
 // now with JSX syntax
-const headerJSX = (
-  <header className="site-header">
-    <h1>Hello from JSX</h1>
-    <h2>The best syntax ever!</h2>
-    <h3>New type!</h3>
-    <form action="">
-      <input type="login" />
-      <button>login</button>
-    </form>
-  </header>
+//########### this
+// const Footer = () => {  // create Component
+//   return React.createElement(
+//     "div",
+//     { className: "site-footer" },
+//     React.createElement("p", {}, `All rights reserved!`),
+//   );
+// };
+//########## OR ########
+const Footer = () => (
+  <div className="site-footer">
+    <p>All rights reserved &copy;</p>
+  </div>
 );
 
-root.render(headerJSX);
+const body = (
+  <div>
+    <header className="site-header">
+      <h1>Hello from JSX</h1>
+      <h2>The best syntax ever!</h2>
+      <h3>New type!</h3>
+      <form action="">
+        <input type="login" />
+        <button>login</button>
+      </form>
+    </header>
+    <Footer />
+  </div>
+);
+
+root.render(body);
