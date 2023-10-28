@@ -16,25 +16,9 @@ var root = ReactDOM.createRoot(rootDom);
 //   reactSecond,
 // );
 // now with JSX syntax
-//########### this
-// const Footer = () => {  // create Component
-//   return React.createElement(
-//     "div",
-//     { className: "site-footer" },
-//     React.createElement("p", {}, `All rights reserved!`),
-//   );
-// };
-//########## OR ########
 var Footer = function Footer() {
-  return React.createElement(
-    "div",
-    { className: "site-footer" },
-    React.createElement(
-      "p",
-      null,
-      "All rights reserved \xA9"
-    )
-  );
+  // create Component
+  return React.createElement("div", { className: "site-footer" }, React.createElement("p", {}, "All rights reserved!"));
 };
 
 var body = React.createElement(
