@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Home = () => {
   return (
     <section id="welcome-world">
@@ -24,9 +26,9 @@ const Home = () => {
             <span>☆</span>
           </div>
           <div className="data-buttons">
-            <a href="#" className="btn details-btn">
+            <Link to="#" className="btn details-btn">
               Details
-            </a>
+            </Link>
           </div>
         </div>
         <div className="game">
@@ -42,9 +44,9 @@ const Home = () => {
             <span>☆</span>
           </div>
           <div className="data-buttons">
-            <a href="#" className="btn details-btn">
+            <Link to="#" className="btn details-btn">
               Details
-            </a>
+            </Link>
           </div>
         </div>
         <div className="game">
@@ -60,9 +62,9 @@ const Home = () => {
             <span>☆</span>
           </div>
           <div className="data-buttons">
-            <a href="#" className="btn details-btn">
+            <Link to="#" className="btn details-btn">
               Details
-            </a>
+            </Link>
           </div>
         </div>
 
