@@ -12,7 +12,7 @@ const Header = () => {
         <Link to="/catalog">All games</Link>
         {/* <!-- Logged-in users --> */}
         <div id="user">
-          <Link to="#">Create Game</Link>
+          <Link to="/create">Create Game</Link>
           <Link to="#">Logout</Link>
         </div>
         {/* <!-- Guest users --> */}
