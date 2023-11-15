@@ -1,7 +1,14 @@
 const CreatePage = () => {
+  const createGameSubHandler = (e) => {
+    e.preventDefault();
+
+    const { title, category, maxLevel, imageUrl } = Object.fromEntries(
+      new FormData(e.currentTarget),
+    );
+  };
   return (
     <section id="create-page" className="auth">
-      <form id="create">
+      <form id="create" onSubmit={createGameSubHandler}>
         <div className="container">
           <h1>Create Game</h1>
           <label for="leg-title">Legendary title:</label>
