@@ -47,7 +47,6 @@ function App() {
   };
   // Mark task with line
   const onTodoClick = async (itemId) => {
-    console.log(itemId);
     const todo = todos.find((x) => x._id === itemId);
     await fetch(`${URL}/${itemId}`, {
       method: "put",
