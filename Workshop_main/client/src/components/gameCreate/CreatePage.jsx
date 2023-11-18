@@ -1,10 +1,21 @@
+import { createGame } from "../../services/gameService";
+
 const CreatePage = () => {
-  const createGameSubHandler = (e) => {
+  const createGameSubHandler = async (e) => {
     e.preventDefault();
 
-    const { title, category, maxLevel, imageUrl } = Object.fromEntries(
+    const { title, category, maxLevel, imageUrl, summary } = Object.fromEntries(
       new FormData(e.currentTarget),
     );
+
+    const response = await createGame({
+      title,
+      category,
+      maxLevel,
+      imageUrl,
+      summary,
+    });
+    console.log(response);
   };
   return (
     <section id="create-page" className="auth">
