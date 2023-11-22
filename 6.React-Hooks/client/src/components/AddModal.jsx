@@ -41,7 +41,7 @@ const AddModal = ({ onTodoAdd, showModal, onTodoClose }) => {
                 type="text"
                 name="text"
                 placeholder="...todo"
-                value={formValues.name}
+                value={formValues.text}
                 onChange={onChangeHandler}
               />
             </Form.Group>{" "}
