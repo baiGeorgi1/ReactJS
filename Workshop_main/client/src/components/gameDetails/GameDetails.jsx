@@ -4,16 +4,15 @@ import * as game from "../../services/gameService";
 import * as comment from "../../services/commentService";
 import { useNavigate } from "react-router-dom";
 
-const GameDetails = ({ name }) => {
+const GameDetails = () => {
   const [gameInfo, setGameInfo] = useState({});
   const [comments, setComments] = useState([]);
 
-  const navigate = useNavigate();
   const { gameId } = useParams();
 
   useEffect(() => {
     game.getOne(gameId).then(setGameInfo);
-    comment.getAll().then(setComments);
+    comment.getAll(gameId).then(setComments);
   }, [gameId]);
 
   const addCommentHandler = async (e) => {
@@ -24,7 +23,7 @@ const GameDetails = ({ name }) => {
       formData.get("username"),
       formData.get("comment"),
     );
-    navigate("/catalog/:gameId/details");
+
     setComments((comments) => [...comments, newComment]);
   };
 
@@ -54,7 +53,7 @@ const GameDetails = ({ name }) => {
               </li>
             ))}
           </ul>
-          {comment.length === 0 && <p className="no-comment">No comments.</p>}
+          {comments.length === 0 && <p className="no-comment">No comments.</p>}
         </div>
 
         {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
