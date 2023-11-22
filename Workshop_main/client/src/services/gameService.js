@@ -4,7 +4,7 @@ const URL = "http://localhost:3030/jsonstore/games";
 
 export const getAll = async () => {
   const result = await request("get", URL);
-  console.log(result);
+
   return Object.values(result);
 };
 
