@@ -10,3 +10,8 @@ export const create = async (gameId, username, text) => {
   });
   return result;
 };
+
+export const getAll = async () => {
+  const result = await request.get(URL);
+  return Object.values(result);
+};

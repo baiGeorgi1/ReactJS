@@ -2,13 +2,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as game from "../../services/gameService";
 import * as comment from "../../services/commentService";
+import { useNavigate } from "react-router-dom";
 
 const GameDetails = ({ name }) => {
   const [gameInfo, setGameInfo] = useState({});
+  const [comments, setComments] = useState([]);
+
+  const navigate = useNavigate();
   const { gameId } = useParams();
 
   useEffect(() => {
     game.getOne(gameId).then(setGameInfo);
+    comment.getAll().then(setComments);
   }, [gameId]);
 
   const addCommentHandler = async (e) => {
@@ -19,7 +24,8 @@ const GameDetails = ({ name }) => {
       formData.get("username"),
       formData.get("comment"),
     );
-    console.log(newComment);
+    navigate("/catalog/:gameId/details");
+    setComments((comments) => [...comments, newComment]);
   };
 
   return (
@@ -38,17 +44,17 @@ const GameDetails = ({ name }) => {
         {/* <!-- Bonus ( for Guests and Users ) --> */}
         <div className="details-comments">
           <h2>Comments:</h2>
+
           <ul>
-            {/* <!-- list all comments for current game (If any) --> */}
-            <li className="comment">
-              <p>Content: I rate this one quite highly.</p>
-            </li>
-            <li className="comment">
-              <p>Content: The best game.</p>
-            </li>
+            {comments.map(({ _id, username, text }) => (
+              <li key={_id} className="comment">
+                <p>
+                  {username}: {text}
+                </p>
+              </li>
+            ))}
           </ul>
-          {/* <!-- Display paragraph: If there are no games in the database --> */}
-          <p className="no-comment">No comments.</p>
+          {comment.length === 0 && <p className="no-comment">No comments.</p>}
         </div>
 
         {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
