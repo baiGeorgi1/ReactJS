@@ -7,6 +7,12 @@ export const getAll = async () => {
 
   return Object.values(result);
 };
+
+export const getOne = async (gameId) => {
+  const result = await request.get(`${URL}/${gameId}`);
+  return result;
+};
+
 // без Build option in reuester
 // export const createGame = async (data) => {
 //   const response = await fetch(`${URL}`, {
