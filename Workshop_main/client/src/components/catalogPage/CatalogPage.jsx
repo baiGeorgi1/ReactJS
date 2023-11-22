@@ -1,4 +1,13 @@
+import { useEffect, useState } from "react";
+import * as game from "../../services/gameService";
+
 const CatalogPage = () => {
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    game.getAll().then((result) => setGames(result));
+  }, []);
+  console.log(games);
   return (
     <section id="catalog-page">
       <h1>All Games</h1>
