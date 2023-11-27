@@ -22,15 +22,25 @@ function App() {
     setAuth(result);
     navigate(Path.Home);
   };
+  const registerHandler = async (values) => {
+    console.log(values);
+  };
+  const info = {
+    loginHandler,
+    registerHandler,
+    username: auth.username,
+    email: auth.email,
+    isAuthenticated: !!auth.email, //ако имаме юзър ще върне true
+  };
 
   return (
     // use Auth.Provider for context
     // на value можем да подаваме ст-сти,обекти,ф-ии,хендлъри и т.н.
-    <AuthContext.Provider value={{ loginHandler }}>
+    <AuthContext.Provider value={info}>
       <div id="box">
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path={Path.Home} element={<Home />} />
           <Route path="/users/*" element={<UserPath />} />
           <Route path="/catalog" element={<CatalogPage />} />
           <Route path="/catalog/:gameId/details" element={<GameDetails />} />
