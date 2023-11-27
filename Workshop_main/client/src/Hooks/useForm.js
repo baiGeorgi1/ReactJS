@@ -1,6 +1,6 @@
 import { useState } from "react";
-
-export function useForm(initialValues) {
+//От login подаваме на useForm хендлъра като 1-ви парам. и ст-стите като втори парам
+export function useForm(submitHandler, initialValues) {
   const [values, setValues] = useState(initialValues);
   const onChange = (e) => {
     setValues((state) => ({
@@ -10,11 +10,13 @@ export function useForm(initialValues) {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+
+    submitHandler(values);
   };
 
   return {
     values,
-    onchange,
+    onChange,
     onSubmit,
   };
 }

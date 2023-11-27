@@ -1,9 +1,16 @@
 import { useForm } from "../../Hooks/useForm";
+// Можем да си направим обект за по-добър мапинг като премахен magic strings
+// и заменим на name='email' със name = {LoginFormKeys.Email}
+//така намаляваме шанса за грешка!
+const LoginFormKeys = {
+  Email: "email",
+  Password: "password",
+};
 
-const Login = () => {
-  const { values, onChange, onSubmit } = useForm({
-    email: "",
-    password: "",
+const Login = ({ loginHandler }) => {
+  const { values, onChange, onSubmit } = useForm(loginHandler, {
+    [LoginFormKeys.Email]: "",
+    [LoginFormKeys.Password]: "",
   });
   return (
     <section id="login-page" className="auth">
@@ -15,19 +22,19 @@ const Login = () => {
           <input
             type="email"
             id="email"
-            name="email"
+            name={LoginFormKeys.Email}
             placeholder="Sokka@gmail.com"
             onChange={onChange}
-            value={values["email"]}
+            value={values[LoginFormKeys.Email]}
           />
 
           <label htmlFor="login-pass">Password:</label>
           <input
             type="password"
             id="login-password"
-            name="password"
+            name={LoginFormKeys.Password}
             onChange={onChange}
-            value={values.password}
+            value={values[LoginFormKeys.Password]}
           />
           <input type="submit" className="btn submit" value="Login" />
           <p className="field">
