@@ -7,6 +7,14 @@ const buildOption = (data) => {
       "content-type": "aplication/json",
     };
   }
+  const token = localStorage.getItem("accessToken");
+
+  if (token) {
+    options.headers = {
+      ...options.headers,
+      "X-Authorization": token,
+    };
+  }
   return options;
 };
 
@@ -15,10 +23,16 @@ const request = async (method, url, data) => {
     ...buildOption(data),
     method,
   });
-  if (!response.ok) {
-    //TODO
+  // for logout
+  if (response.status === 204) {
+    return {};
   }
+
   const result = await response.json();
+
+  if (!response.ok) {
+    throw result;
+  }
   return result;
 };
 // called partial application

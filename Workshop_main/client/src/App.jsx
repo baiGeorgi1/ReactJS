@@ -12,29 +12,41 @@ import CreatePage from "./components/gameCreate/CreatePage";
 import UserPath from "./components/UserPath";
 import GameDetails from "./components/gameDetails/GameDetails";
 import Path from "./paths";
+import Logout from "./components/user/Logout";
 
 function App() {
   const navigate = useNavigate();
-  const [auth, setAuth] = useState({});
+  const [auth, setAuth] = useState(() => {
+    localStorage.removeItem("accessToken");
+    return {};
+  });
 
   const loginHandler = async (values) => {
     const result = await authService.login(values.email, values.password);
     setAuth(result);
+    localStorage.setItem("accessToken", result.accessToken);
     navigate(Path.Home);
   };
 
   const registerHandler = async (values) => {
     const result = await authService.register(values.email, values.password);
     setAuth(result);
+    localStorage.setItem("accessToken", result.accessToken);
     navigate(Path.Home);
+  };
+  const logoutHandler = () => {
+    setAuth({});
+    navigate(Path.Home);
+    localStorage.removeItem("accessToken");
   };
 
   const info = {
     loginHandler,
     registerHandler,
-    username: auth.username,
+    logoutHandler,
+    username: auth.email,
     email: auth.email,
-    isAuthenticated: !!auth.email, //ако имаме юзър ще върне true
+    isAuthenticated: !!auth.accessToken, //ако имаме юзър ще върне true
   };
 
   return (
@@ -47,6 +59,7 @@ function App() {
           <Route path={Path.Home} element={<Home />} />
           <Route path="/users/*" element={<UserPath />} />
           <Route path="/catalog" element={<CatalogPage />} />
+          {/* <Route path="/logout" element={<Logout />} /> */}
           <Route path="/catalog/:gameId/details" element={<GameDetails />} />
           <Route path="/create" element={<CreatePage />} />
         </Routes>

@@ -9,9 +9,12 @@ export const login = async (email, password) => {
   });
   return result;
 };
+
 export const register = async (email, password) => {
   request.post(`${URL}/register`, {
     email,
     password,
   });
 };
+
+export const logout = () => request.get(`${URL}/logout`);
