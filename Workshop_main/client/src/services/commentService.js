@@ -1,13 +1,15 @@
 import * as request from "../library/request";
 
-const URL = "http://localhost:3030/jsonstore/comments";
+const URL = "http://localhost:3030/data/comments";
 
 export const getAll = async (gameId) => {
-  const result = await request.get(`${URL}`);
-  console.log(Object.values(result));
+  const query = new URLSearchParams({
+    where: `gameId="${gameId}"`,
+  });
 
-  //TODO temp solution until do authentication
-  return Object.values(result).filter((comment) => comment.gameId === gameId);
+  const result = await request.get(`${URL}?${query}`);
+
+  return result;
 };
 
 export const create = async (gameId, username, text) => {
