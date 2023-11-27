@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { useForm } from "../../Hooks/useForm";
+import AuthContext from "../../contexts/auth";
+
 // Можем да си направим обект за по-добър мапинг като премахен magic strings
 // и заменим на name='email' със name = {LoginFormKeys.Email}
 //така намаляваме шанса за грешка!
@@ -6,8 +9,10 @@ const LoginFormKeys = {
   Email: "email",
   Password: "password",
 };
+//С контекста няма нужда да подаваме през props  логинХандлер-а
+const Login = () => {
+  const { loginHandler } = useContext(AuthContext);
 
-const Login = ({ loginHandler }) => {
   const { values, onChange, onSubmit } = useForm(loginHandler, {
     [LoginFormKeys.Email]: "",
     [LoginFormKeys.Password]: "",

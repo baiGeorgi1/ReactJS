@@ -6,6 +6,8 @@ import CreatePage from "./components/gameCreate/CreatePage";
 import UserPath from "./components/UserPath";
 import GameDetails from "./components/gameDetails/GameDetails";
 import { useState } from "react";
+import AuthContext from "./contexts/auth";
+import Login from "./components/user/Login";
 
 function App() {
   const [auth, setAuth] = useState({});
@@ -15,19 +17,20 @@ function App() {
   };
 
   return (
-    <div id="box">
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/users/*"
-          element={<UserPath loginHandler={loginHandler} />}
-        />
-        <Route path="/catalog" element={<CatalogPage />} />
-        <Route path="/catalog/:gameId/details" element={<GameDetails />} />
-        <Route path="/create" element={<CreatePage />} />
-      </Routes>
-    </div>
+    // use Auth.Provider for context
+    // на value можем да подаваме ст-сти,обекти,ф-ии,хендлъри и т.н.
+    <AuthContext.Provider value={{ loginHandler }}>
+      <div id="box">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/users/*" element={<UserPath />} />
+          <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/catalog/:gameId/details" element={<GameDetails />} />
+          <Route path="/create" element={<CreatePage />} />
+        </Routes>
+      </div>
+    </AuthContext.Provider>
   );
 }
 
