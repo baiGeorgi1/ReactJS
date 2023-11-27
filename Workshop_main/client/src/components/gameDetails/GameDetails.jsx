@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as game from "../../services/gameService";
 import * as comment from "../../services/commentService";
-import { useNavigate } from "react-router-dom";
+import AuthContext from "../../contexts/auth";
 
 const GameDetails = () => {
+  const { email, isAuthenticated } = useContext(AuthContext);
   const [gameInfo, setGameInfo] = useState({});
   const [comments, setComments] = useState([]);
 
@@ -18,13 +19,12 @@ const GameDetails = () => {
   const addCommentHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const newComment = await comment.create(
-      gameId,
-      formData.get("username"),
-      formData.get("comment"),
-    );
+    const newComment = await comment.create(gameId, formData.get("comment"));
 
-    setComments((comments) => [...comments, newComment]);
+    setComments((comments) => [
+      ...comments,
+      { ...newComment, owner: { email } },
+    ]);
   };
 
   return (
@@ -45,10 +45,10 @@ const GameDetails = () => {
           <h2>Comments:</h2>
 
           <ul>
-            {comments.map(({ _id, username, text }) => (
+            {comments.map(({ _id, text, owner: { email } }) => (
               <li key={_id} className="comment">
                 <p>
-                  {username}: {text}
+                  {email}: {text}
                 </p>
               </li>
             ))}
@@ -69,14 +69,15 @@ const GameDetails = () => {
 
       {/* <!-- Bonus --> */}
       {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
-      <article className="create-comment">
-        <label>Add new comment:</label>
-        <form className="form" onSubmit={addCommentHandler}>
-          <input type="text" name="username" />
-          <textarea name="comment" placeholder="Comment......"></textarea>
-          <input className="btn submit" type="submit" value="Add Comment" />
-        </form>
-      </article>
+      {isAuthenticated && (
+        <article className="create-comment">
+          <label>Add new comment:</label>
+          <form className="form" onSubmit={addCommentHandler}>
+            <textarea name="comment" placeholder="Comment......"></textarea>
+            <input className="btn submit" type="submit" value="Add Comment" />
+          </form>
+        </article>
+      )}
     </section>
   );
 };
