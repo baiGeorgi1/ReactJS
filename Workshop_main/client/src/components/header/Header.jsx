@@ -18,7 +18,7 @@ const Header = () => {
           <div id="user">
             <Link to="/create">Create Game</Link>
             <Link to="/users/logout">Logout</Link>
-            <span>| {username}</span>
+            <span>| Hi,{email}</span>
           </div>
         )}
 
