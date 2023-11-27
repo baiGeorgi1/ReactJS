@@ -1,19 +1,26 @@
-import { Routes, Route } from "react-router-dom";
+// Подреди импортите по значение
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import * as authService from "./services/authService";
+import AuthContext from "./contexts/auth";
+
 import CatalogPage from "./components/catalogPage/CatalogPage";
 import Header from "./components/header/Header";
 import Home from "./components/home/Home";
 import CreatePage from "./components/gameCreate/CreatePage";
 import UserPath from "./components/UserPath";
 import GameDetails from "./components/gameDetails/GameDetails";
-import { useState } from "react";
-import AuthContext from "./contexts/auth";
-import Login from "./components/user/Login";
+import Path from "./paths";
 
 function App() {
+  const navigate = useNavigate();
   const [auth, setAuth] = useState({});
 
-  const loginHandler = (values) => {
-    console.log(values);
+  const loginHandler = async (values) => {
+    const result = await authService.login(values.email, values.password);
+    setAuth(result);
+    navigate(Path.Home);
   };
 
   return (
