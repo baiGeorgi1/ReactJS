@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import * as authService from "./services/authService";
-import AuthContext from "./contexts/auth";
+import AuthContext, { AuthProvider } from "./contexts/auth";
 
 import CatalogPage from "./components/catalogPage/CatalogPage";
 import Header from "./components/header/Header";
@@ -12,7 +12,6 @@ import CreatePage from "./components/gameCreate/CreatePage";
 import UserPath from "./components/UserPath";
 import GameDetails from "./components/gameDetails/GameDetails";
 import Path from "./paths";
-import Logout from "./components/user/Logout";
 
 function App() {
   const navigate = useNavigate();
@@ -52,7 +51,7 @@ function App() {
   return (
     // use Auth.Provider for context
     // на value можем да подаваме ст-сти,обекти,ф-ии,хендлъри и т.н.
-    <AuthContext.Provider value={info}>
+    <AuthProvider value={info}>
       <div id="box">
         <Header />
         <Routes>
@@ -64,7 +63,7 @@ function App() {
           <Route path="/create" element={<CreatePage />} />
         </Routes>
       </div>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
