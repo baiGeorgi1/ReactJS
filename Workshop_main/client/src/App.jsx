@@ -10,6 +10,7 @@ import CreatePage from "./components/gameCreate/CreatePage";
 import UserPath from "./components/UserPath";
 import GameDetails from "./components/gameDetails/GameDetails";
 import Path from "./paths";
+import GameEdit from "./components/gameEdit/GameEdit";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                         element={<GameDetails />}
                     />
                     <Route path="/create" element={<CreatePage />} />
+                    <Route path="/edit/:gameId" element={<GameEdit />} />
                 </Routes>
             </div>
         </AuthProvider>

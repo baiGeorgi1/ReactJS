@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useMemo, useReducer, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as game from "../../services/gameService";
 import * as comment from "../../services/commentService";
@@ -59,11 +59,21 @@ const GameDetails = () => {
             payload: newComment,
         });
     };
-    const { values, onChange, onSubmit } = useForm(addCommentHandler, {
-        comment: "",
-    });
+
+    //ADV technique temp referency save
+    const tempValue = useMemo(
+        () => ({
+            comment: "",
+        }),
+        [],
+    );
+
+    const { values, onChange, onSubmit } = useForm(
+        addCommentHandler,
+        tempValue,
+    );
     const isOwner = userId === gameInfo._ownerId;
-    console.log(isOwner);
+
     return (
         <section id="game-details">
             <h1>Game Details</h1>
@@ -100,10 +110,10 @@ const GameDetails = () => {
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
                 {isOwner && (
                     <div className="buttons">
-                        <Link to="#" className="button">
+                        <Link to={`/edit/${gameId}`} className="button">
                             Edit
                         </Link>
-                        <Link to="#" className="button">
+                        <Link to={`/games/${gameId}/delete`} className="button">
                             Delete
                         </Link>
                     </div>

@@ -12,6 +12,10 @@ export const getOne = async (gameId) => {
   const result = await request.get(`${URL}/${gameId}`);
   return result;
 };
+export const edit = async (gameId, newData) => {
+  const result = await request.put(`${URL}/${gameId}`, newData);
+  return result;
+};
 
 // без Build option in reuester
 // export const createGame = async (data) => {
