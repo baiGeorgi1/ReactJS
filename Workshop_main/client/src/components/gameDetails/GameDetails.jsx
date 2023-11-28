@@ -7,7 +7,7 @@ import AuthContext from "../../contexts/auth";
 //Adv techniques make useReducer function
 const reducer = (state, action) => {
     switch (action?.type) {
-        case "GET_ALL_GAMES":
+        case "GET_ALL_COMMENTS":
             return [...action.payload];
         case "ADD_COMMENT":
             return [...state, action.payload];
@@ -33,7 +33,7 @@ const GameDetails = () => {
             //.then((setComments)); => without reducer
             .then((result) => {
                 dispatch({
-                    type: "GET_ALL_GAMES",
+                    type: "GET_ALL_COMMENTS",
                     payload: result,
                 });
             });
