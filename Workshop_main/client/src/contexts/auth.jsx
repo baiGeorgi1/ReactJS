@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
             values.password,
         );
         setAuth(result);
+        console.log(result);
         localStorage.setItem("accessToken", result.accessToken);
         navigate(Path.Home);
     };
@@ -41,6 +42,7 @@ export const AuthProvider = ({ children }) => {
         loginHandler,
         registerHandler,
         logoutHandler,
+        userId: auth._id,
         username: auth.email,
         email: auth.email,
         isAuthenticated: !!auth.accessToken, //ако имаме юзър ще върне true

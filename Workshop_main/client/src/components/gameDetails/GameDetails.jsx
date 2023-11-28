@@ -1,16 +1,26 @@
 import { useContext, useEffect, useReducer, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as game from "../../services/gameService";
 import * as comment from "../../services/commentService";
 import AuthContext from "../../contexts/auth";
+import { useForm } from "../../Hooks/useForm";
 
 //Adv techniques make useReducer function
+//TODO да я изнеса от компонента
 const reducer = (state, action) => {
     switch (action?.type) {
         case "GET_ALL_COMMENTS":
             return [...action.payload];
         case "ADD_COMMENT":
             return [...state, action.payload];
+        //if we have edit_comment
+        // ******************************* IMPORTANT
+        case "EDIT_COMMENT":
+            return state.map((c) =>
+                c._id === action.payload._id
+                    ? { ...c, text: action.payload.text }
+                    : c,
+            );
 
         default:
             return state;
@@ -18,7 +28,8 @@ const reducer = (state, action) => {
 };
 
 const GameDetails = () => {
-    const { email, isAuthenticated } = useContext(AuthContext);
+    const { userId, email, isAuthenticated } = useContext(AuthContext);
+
     const [gameInfo, setGameInfo] = useState({});
     //  const [comments, setComments] = useState([]);
     //or useReducer
@@ -39,13 +50,8 @@ const GameDetails = () => {
             });
     }, [gameId]);
 
-    const addCommentHandler = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const newComment = await comment.create(
-            gameId,
-            formData.get("comment"),
-        );
+    const addCommentHandler = async (values) => {
+        const newComment = await comment.create(gameId, values.comment);
         newComment.owner = { email };
         // setComments((comments) => [ ...comments, { ...newComment, owner: { email } },]);
         dispatch({
@@ -53,7 +59,11 @@ const GameDetails = () => {
             payload: newComment,
         });
     };
-
+    const { values, onChange, onSubmit } = useForm(addCommentHandler, {
+        comment: "",
+    });
+    const isOwner = userId === gameInfo._ownerId;
+    console.log(isOwner);
     return (
         <section id="game-details">
             <h1>Game Details</h1>
@@ -88,14 +98,16 @@ const GameDetails = () => {
                 </div>
 
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
-                {/* <div className="buttons">
-          <a href="#" className="button">
-            Edit
-          </a>
-          <a href="#" className="button">
-            Delete
-          </a>
-        </div> */}
+                {isOwner && (
+                    <div className="buttons">
+                        <Link to="#" className="button">
+                            Edit
+                        </Link>
+                        <Link to="#" className="button">
+                            Delete
+                        </Link>
+                    </div>
+                )}
             </div>
 
             {/* <!-- Bonus --> */}
@@ -103,10 +115,12 @@ const GameDetails = () => {
             {isAuthenticated && (
                 <article className="create-comment">
                     <label>Add new comment:</label>
-                    <form className="form" onSubmit={addCommentHandler}>
+                    <form className="form" onSubmit={onSubmit}>
                         <textarea
                             name="comment"
                             placeholder="Comment......"
+                            value={values.comment}
+                            onChange={onChange}
                         ></textarea>
                         <input
                             className="btn submit"

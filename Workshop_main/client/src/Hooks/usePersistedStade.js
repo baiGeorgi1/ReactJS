@@ -2,10 +2,12 @@
 import { useState } from "react";
 //synchronize auth state at react and localStorage
 export default function usePersistedState(key, defaultValue) {
+
     const [state, setState] = useState(() => {
         const persistState = localStorage.getItem(key);
+
         if (persistState) {
-            return JSON.parse(persistState);
+            return JSON.stringify(persistState);
         }
         return defaultValue;
     });
