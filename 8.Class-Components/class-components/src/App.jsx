@@ -1,75 +1,12 @@
 import React from "react";
 
-import { Button } from "antd";
-import {
-    AppstoreOutlined,
-    MailOutlined,
-    SettingOutlined,
-} from "@ant-design/icons";
-import { Menu } from "antd";
 import TodoList from "./components/TODO";
+import Todoctx from "./contexts/TodoContext";
+import Header from "./components/Header";
+
 // тези клас комп. можем да ги изнесем в друг файл!
 //Това са компоненти на навигацията!
-const items = [
-    {
-        label: "Имейл",
-        key: "mail",
-        icon: <MailOutlined />,
-    },
-    {
-        label: "Меню",
-        key: "app",
-        icon: <AppstoreOutlined />,
-        disabled: true,
-    },
-    {
-        label: "Настройки",
-        key: "SubMenu",
-        icon: <SettingOutlined />,
-        children: [
-            {
-                type: "group",
-                label: "Item 1",
-                children: [
-                    {
-                        label: "Option 1",
-                        key: "setting:1",
-                    },
-                    {
-                        label: "Option 2",
-                        key: "setting:2",
-                    },
-                ],
-            },
-            {
-                type: "group",
-                label: "Item 2",
-                children: [
-                    {
-                        label: "Option 3",
-                        key: "setting:3",
-                    },
-                    {
-                        label: "Option 4",
-                        key: "setting:4",
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        label: (
-            <a
-                href="https://ant.design"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Navigation Four - Link
-            </a>
-        ),
-        key: "alipay",
-    },
-];
+
 // така се прави клас компоненти от функц.
 class App extends React.Component {
     constructor(props) {
@@ -113,15 +50,15 @@ class App extends React.Component {
     //задължително трябва да има 'render'метод!
     render() {
         return (
-            <div className="App">
-                <Menu mode="horizontal" items={items} />
+            <Todoctx.Provider value={{ name: "Gogo", todos: this.state.todos }}>
+                <Header />
                 <h1>{this.state.name}</h1>
                 <TodoList
                     todos={this.state.todos}
                     toggleTodo={this.toggleTodo}
                     deleteTodo={this.deleteTodo}
                 />
-            </div>
+            </Todoctx.Provider>
         );
     }
 }
