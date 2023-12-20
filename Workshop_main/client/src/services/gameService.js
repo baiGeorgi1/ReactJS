@@ -7,6 +7,21 @@ export const getAll = async () => {
 
   return result;
 };
+export const getLatest = async () => {
+  const query = new URLSearchParams({
+    sortBy: `_createdOn des`,
+    //Paggination
+    offset: 0,
+    pageSize: 3,
+
+  });
+  const sorted = new URLSearchParams({
+
+  });
+
+  const result = await request.get(`${URL}?${query}`);
+  return result;
+};
 
 export const getOne = async (gameId) => {
   const result = await request.get(`${URL}/${gameId}`);
