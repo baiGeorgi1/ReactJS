@@ -12,6 +12,8 @@ import GameDetails from "./components/gameDetails/GameDetails";
 import Path from "./paths";
 import GameEdit from "./components/gameEdit/GameEdit";
 import ErrorBoundary from "./components/ErrorBoundary";
+import AuthGuard from "./components/guards/AuthGuard";
+import AuthGuardPro from "./components/guards/AuthGuardPro";
 
 function App() {
     return (
@@ -31,8 +33,20 @@ function App() {
                             path="/catalog/:gameId/details"
                             element={<GameDetails />}
                         />
-                        <Route path="/create" element={<CreatePage />} />
-                        <Route path="/edit/:gameId" element={<GameEdit />} />
+                        <Route
+                            path="/create"
+                            element={
+                                <AuthGuard>
+                                    <CreatePage />
+                                </AuthGuard>
+                            }
+                        />
+                        <Route element={<AuthGuardPro />}>
+                            <Route
+                                path="/edit/:gameId"
+                                element={<GameEdit />}
+                            />
+                        </Route>
                     </Routes>
                 </div>
             </AuthProvider>

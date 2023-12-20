@@ -10,6 +10,9 @@ export default class ErrorBoundary extends Component {
     //Статичен метод (по-важен)
     static getetDerivedStateFromError(err) {
         console.log("GetDerivedStateFromError");
+        return {
+            hasError: true,
+        };
     }
     //live-cycle метод
     componetntDidCatch(erro, errorInfo) {
