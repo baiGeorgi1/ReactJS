@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { Component } from "react";
 import { Menu } from "antd";
 import {
@@ -6,8 +7,9 @@ import {
     SettingOutlined,
 } from "@ant-design/icons";
 import Todoctx from "../contexts/TodoContext";
+import withNavigate from "../HOC/withNavigate";
 
-export default class Header extends Component {
+class Header extends Component {
     render() {
         const items = [
             {
@@ -39,6 +41,7 @@ export default class Header extends Component {
                 key: "alipay",
             },
         ];
+        //  this.props.navigate("/404"); работи,но не е за хедър,а за друга страница, тук има безкр. цикъл
         return (
             // с Consumer се подава контекста при клас-компонентите
             <>
@@ -52,3 +55,4 @@ export default class Header extends Component {
         );
     }
 }
+export default withNavigate(Header);

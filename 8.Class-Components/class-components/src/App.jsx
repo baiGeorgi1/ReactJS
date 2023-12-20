@@ -32,6 +32,10 @@ class App extends React.Component {
                 });
             });
     }
+    //компонент за unMount-ване
+    componentWillUnmount() {
+        console.log("deleted");
+    }
     toggleTodo(todoId) {
         console.log(todoId);
         this.setState({
@@ -52,7 +56,7 @@ class App extends React.Component {
         return (
             <Todoctx.Provider value={{ name: "Gogo", todos: this.state.todos }}>
                 <Header />
-                <h1>{this.state.name}</h1>
+                {/* <h1>{this.state.name}</h1> */}
                 <TodoList
                     todos={this.state.todos}
                     toggleTodo={this.toggleTodo}
