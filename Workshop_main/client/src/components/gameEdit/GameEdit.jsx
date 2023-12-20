@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 
 import { edit, getOne } from "../../services/gameService";
-import { useForm } from "../../Hooks/useForm";
 import { useEffect, useState } from "react";
 
 const GameEdit = () => {
@@ -21,7 +20,11 @@ const GameEdit = () => {
         });
     }, [gameId]);
 
-    const editGameSubHandler = async (values) => {
+    const editGameSubHandler = async (e) => {
+        e.preventDefault();
+
+        const values = Object.fromEntries(new FormData(e.currentTarget));
+        console.log(values);
         try {
             await edit(gameId, values);
             navigate("/catalog");
@@ -30,29 +33,34 @@ const GameEdit = () => {
             console.log(err);
         }
     };
-    const { values, onChange, onSubmit } = useForm(editGameSubHandler, game);
+    const onChange = (e) => {
+        setGame((state) => ({
+            ...state,
+            [e.target.name]: e.target.value,
+        }));
+    };
 
     return (
         <section id="edit-page" className="auth">
-            <form id="edit" onSubmit={onSubmit}>
+            <form id="edit" onSubmit={editGameSubHandler}>
                 <div className="container">
                     <h1>Edit Game</h1>
                     <label htmlFor="leg-title">Legendary title:</label>
                     <input
                         type="text"
                         id="title"
+                        value={game.title}
                         onChange={onChange}
                         name="title"
-                        value={values.title}
                     />
 
                     <label htmlFor="category">Category:</label>
                     <input
                         type="text"
                         id="category"
+                        value={game.category}
                         onChange={onChange}
                         name="category"
-                        value={values.category}
                     />
 
                     <label htmlFor="levels">MaxLevel:</label>
@@ -61,7 +69,7 @@ const GameEdit = () => {
                         id="maxLevel"
                         name="maxLevel"
                         min="1"
-                        value={values.maxLevel}
+                        value={game.maxLevel}
                         onChange={onChange}
                     />
 
@@ -69,23 +77,19 @@ const GameEdit = () => {
                     <input
                         type="text"
                         id="imageUrl"
+                        value={game.imageUrl}
                         onChange={onChange}
                         name="imageUrl"
-                        value={values.imageUrl}
                     />
 
                     <label htmlFor="summary">Summary:</label>
                     <textarea
                         onChange={onChange}
+                        value={game.summary}
                         name="summary"
                         id="summary"
-                        value={values.summary}
                     ></textarea>
-                    <input
-                        className="btn submit"
-                        type="submit"
-                        value="Edit Game"
-                    />
+                    <input className="btn submit" type="submit" />
                 </div>
             </form>
         </section>
