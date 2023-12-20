@@ -36,3 +36,7 @@ export const createGame = async (data) => {
   const result = await request.post(URL, data);
   return result;
 };
+
+export const delGame = async (gameId) => {
+  await request.del(`${URL}/${gameId}`);
+};

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useReducer, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import * as game from "../../services/gameService";
 import * as comment from "../../services/commentService";
 import AuthContext from "../../contexts/auth";
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 
 const GameDetails = () => {
     const { userId, email, isAuthenticated } = useContext(AuthContext);
-
+    const navigate = useNavigate();
     const [gameInfo, setGameInfo] = useState({});
     //  const [comments, setComments] = useState([]);
     //or useReducer
@@ -59,19 +59,26 @@ const GameDetails = () => {
             payload: newComment,
         });
     };
+    const onDeleteClick = async () => {
+        const hasconfirmed = confirm(`Are you sure to delete ${game.title}`);
+        if (hasconfirmed) {
+            await game.delGame(gameId);
+            navigate("/catalog");
+        }
+    };
 
     //ADV technique temp referency save
-    const tempValue = useMemo(
-        () => ({
-            comment: "",
-        }),
-        [],
-    );
+    // const tempValue = useMemo(
+    //     () => ({
+    //         comment: "",
+    //     }),
+    //     [],
+    // );
 
-    const { values, onChange, onSubmit } = useForm(
-        addCommentHandler,
-        tempValue,
-    );
+    const { values, onChange, onSubmit } = useForm(addCommentHandler, {
+        comment: "",
+    });
+
     const isOwner = userId === gameInfo._ownerId;
 
     return (
@@ -113,9 +120,9 @@ const GameDetails = () => {
                         <Link to={`/edit/${gameId}`} className="button">
                             Edit
                         </Link>
-                        <Link to={`/games/${gameId}/delete`} className="button">
+                        <button className="button" onClick={onDeleteClick}>
                             Delete
-                        </Link>
+                        </button>
                     </div>
                 )}
             </div>

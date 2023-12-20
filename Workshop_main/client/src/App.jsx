@@ -46,6 +46,10 @@ function App() {
                                 path="/edit/:gameId"
                                 element={<GameEdit />}
                             />
+                            <Route
+                                path="/games/:gameId/delete"
+                                element={<GameEdit />}
+                            />
                         </Route>
                     </Routes>
                 </div>

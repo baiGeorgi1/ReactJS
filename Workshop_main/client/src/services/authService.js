@@ -11,7 +11,7 @@ export const login = async (email, password) => {
 };
 
 export const register = async (email, password) => {
-  request.post(`${URL}/register`, {
+  return request.post(`${URL}/register`, {
     email,
     password,
   });
